@@ -1,5 +1,5 @@
 package com.gigateam.world.physics;
-import com.gigateam.world.physics.shape.Vertex;
+import com.gigateam.world.physics.shape.Vec;
 
 
 /**
@@ -20,28 +20,28 @@ class Acceleration
 		accelerationY = ay;
 		accelerationZ = az;
 	}
-	public function setAccel(v:Vertex):Void{
+	public function setAccel(v:Vec):Void{
 		accelerationX = v.x;
 		accelerationY = v.y;
 		accelerationZ = v.z;
 	}
-	public function setMaxVel(v:Vertex):Void{
+	public function setMaxVel(v:Vec):Void{
 		maxVelX = v.x;
 		maxVelY = v.y;
 		maxVelZ = v.z;
 	}
-	public function getAccel(out:Vertex=null):Vertex{
+	public function getAccel(out:Vec=null):Vec{
 		if (out == null){
-			out = new Vertex();
+			out = new Vec();
 		}
 		out.x = accelerationX;
 		out.y = accelerationY;
 		out.z = accelerationZ;
 		return out;
 	}
-	public function getMaxVel(out:Vertex=null):Vertex{
+	public function getMaxVel(out:Vec=null):Vec{
 		if (out == null){
-			out = new Vertex();
+			out = new Vec();
 		}
 		out.x = maxVelX;
 		out.y = maxVelY;

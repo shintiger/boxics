@@ -1,6 +1,6 @@
 package com.gigateam.world.physics.algorithm;
 import com.gigateam.world.physics.math.Euler;
-import com.gigateam.world.physics.shape.Vertex;
+import com.gigateam.world.physics.shape.Vec;
 
 /**
  * ...
@@ -26,7 +26,7 @@ class Equation
 		return (-velocity+Math.sqrt(Math.pow(velocity, 2) - (4 * (acceleration/2) *-distance))) / acceleration;
 	}
 	
-	public static function resolveVectorOld(rx:Float, rz:Float, distance:Int, v:Vertex):Vertex{
+	public static function resolveVectorOld(rx:Float, rz:Float, distance:Int, v:Vec):Vec{
 		var sinPiRx:Float;
 		/*sinPiRx = Math.sin(Math.PI - rx);
 		v.z = Std.int(Math.cos(Math.PI - rx)*distance);
@@ -39,7 +39,7 @@ class Equation
 		v.x = Std.int(Math.cos(rz) * vz);
 		return v;
 	}
-	public static function resolveVector(rx:Float, rz:Float, distance:Float, v:Vertex):Vertex{
+	public static function resolveVector(rx:Float, rz:Float, distance:Float, v:Vec):Vec{
 		rx = Math.PI - rx;
 		rz = Math.PI - rz;
 		
@@ -61,7 +61,7 @@ class Equation
 		v.z = z * scale;
 		return v;
 	}
-	public static function resolveAngle(v1:Vertex, v2:Vertex, a:Euler):Euler{
+	public static function resolveAngle(v1:Vec, v2:Vec, a:Euler):Euler{
 		var dx:Float = v2.x - v1.x;
 		var dy:Float = v2.y - v1.y;
 		var dz:Float = v2.z - v1.z;
@@ -86,12 +86,12 @@ class Equation
 		}
 		return Math.sqrt(dx * dx + dy * dy);
 	}
-	public static function slideVector(line:Vertex, planeNormal:Vertex):Vertex{
+	public static function slideVector(line:Vec, planeNormal:Vec):Vec{
 		//Find the perpenducular axis first
 		if (line.dot(planeNormal) > 0){
 			return line.clone();
 		}
-		var axis:Vertex = line.cross(planeNormal);
+		var axis:Vec = line.cross(planeNormal);
 		//We have a right angle plane cross to planeNormal now, then find the axis which perenticular to planeNormal AND in same plane with planeNormal and line.
 		axis = axis.cross(planeNormal);
 		axis.normalize();

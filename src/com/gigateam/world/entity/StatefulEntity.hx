@@ -7,7 +7,7 @@ import com.gigateam.world.logic.BytesStream;
 import com.gigateam.world.logic.status.EntityState;
 import com.gigateam.world.logic.status.INotifee;
 import com.gigateam.world.logic.status.Notifier;
-import com.gigateam.world.physics.shape.Vertex;
+import com.gigateam.world.physics.shape.Vec;
 import com.gigateam.world.physics.timeline.StateKeyframe;
 import com.gigateam.world.physics.timeline.StateTimeline;
 
@@ -79,8 +79,8 @@ class StatefulEntity implements INotifee extends Entity
 		
 		return sum + (bytes.offset() - originOffset);
 	}
-	override public function interpolate(time:Int, tmp:Bool = false):Vertex{
-		var v:Vertex = super.interpolate(time, tmp);
+	override public function interpolate(time:Int, tmp:Bool = false):Vec{
+		var v:Vec = super.interpolate(time, tmp);
 		time-= rewundTime;
 		
 		//Debugger.getInstance().log("time:" + Std.string(time));

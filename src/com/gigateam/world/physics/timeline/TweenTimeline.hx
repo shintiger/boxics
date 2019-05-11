@@ -1,6 +1,6 @@
 package com.gigateam.world.physics.timeline;
 import com.gigateam.util.Debugger;
-import com.gigateam.world.physics.shape.Vertex;
+import com.gigateam.world.physics.shape.Vec;
 
 /**
  * ...

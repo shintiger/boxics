@@ -15,7 +15,7 @@ import com.gigateam.world.physics.entity.Body;
 import com.gigateam.world.physics.entity.ICollisionNotifier;
 import com.gigateam.world.physics.math.AxisType;
 import com.gigateam.world.physics.shape.AABB;
-import com.gigateam.world.physics.shape.Vertex;
+import com.gigateam.world.physics.shape.Vec;
 import com.gigateam.world.physics.timeline.StateKeyframe;
 import com.gigateam.world.physics.timeline.StateTimeline;
 import com.gigateam.world.physics.timeline.Timeline;
@@ -56,8 +56,8 @@ class Character extends StatefulEntity
 		_timeoutMap = new Map<Int, Int>();
 		_timeoutMap.set(EntityState.READY_JUMP, EntityState.JUMPPING);
 	}
-	override public function interpolate(time:Int, tmp:Bool = false):Vertex{
-		var result:Vertex = super.interpolate(time, tmp);
+	override public function interpolate(time:Int, tmp:Bool = false):Vec{
+		var result:Vec = super.interpolate(time, tmp);
 		latestHp = hp.valueAt(time);
 		return result;
 	}
@@ -82,10 +82,10 @@ class Character extends StatefulEntity
 	public function changeDownState(targetState:Int, worldTime:Int, offset:Int):Bool{
 		return changeState(targetState, _downState, worldTime, offset);
 	}
-	override public function collisionStart(body:Body, axis:Vertex, colliding:AABB, worldTime:Int):Void{
+	override public function collisionStart(body:Body, axis:Vec, colliding:AABB, worldTime:Int):Void{
 		super.collisionStart(body, axis, colliding, worldTime);
 	}
-	override public function collisionEnd(body:Body, axis:Vertex, colliding:AABB, worldTime:Int):Void{
+	override public function collisionEnd(body:Body, axis:Vec, colliding:AABB, worldTime:Int):Void{
 		super.collisionEnd(body, axis, colliding, worldTime);
 	}
 	override public function fall(body:Body, worldTime:Int):Void{
@@ -127,7 +127,7 @@ class Character extends StatefulEntity
 		if (!changed || dead){
 			return 0;
 		}
-		var dir:Vertex;
+		var dir:Vec;
 		var offset:Float = 0;
 		var targetState:String = "";
 		var jumpIndex:Int = getStateByName("jump").index;
@@ -140,9 +140,9 @@ class Character extends StatefulEntity
 			hard = true;
 		}
 		if (!hard && keyState.isPressed(15) && keyState.isChanged(15)){
-			var org:Vertex = getBody().getAABB().centerPoint();
+			var org:Vec = getBody().getAABB().centerPoint();
 			var bullet:Entity = director.spawnEntity(worldTime, NetworkEntityPool.groupOfKey(networkId), 11, org.x, org.y, org.z+30, true);
-			dir = new Vertex();
+			dir = new Vec();
 			var hypo:Float = -Math.cos(transformY + Math.PI * 0.5);
 			var height:Float = Math.sin(transformY + Math.PI * 0.5);
 			var percentage:Float = Math.abs(hypo / height);
@@ -185,7 +185,7 @@ class Character extends StatefulEntity
 				transformX+= offset;
 				faceRotation = transformX;
 				
-				dir = new Vertex(-Math.sin(transformX), Math.cos(transformX), 0);
+				dir = new Vec(-Math.sin(transformX), Math.cos(transformX), 0);
 				dir.normalize();
 				body.applyBoostHorizon(dir, 700, 100, inputTime);
 				if(stateId()==getStateByName("idle").index){
@@ -203,7 +203,7 @@ class Character extends StatefulEntity
 			return 0;
 		}
 		if (!hard && keyState.isChanged(4) && keyState.isPressed(4) && !body.isAir()){
-			var impulse:Impulse = Impulse.fromVertices(new Vertex(0, 0, 0), new Vertex(0, 0, 10), 200);
+			var impulse:Impulse = Impulse.fromVertices(new Vec(0, 0, 0), new Vec(0, 0, 10), 200);
 			body.applyImpulse(impulse);
 			changeMainState(jumpIndex, worldTime, worldTime-inputTime);
 		}else if (targetState != ""){

@@ -23,7 +23,7 @@ import com.gigateam.world.physics.entity.BodyType;
 import com.gigateam.world.physics.entity.Space;
 import com.gigateam.world.physics.shape.AABB;
 
-import com.gigateam.world.physics.shape.Vertex;
+import com.gigateam.world.physics.shape.Vec;
 import haxe.Json;
 import haxe.io.Bytes;
 import haxe.io.BytesData;
@@ -103,7 +103,7 @@ class WorldSimulator extends Director
 		_creator = creator;
 		_creator.init(_json.entities, authorized, authorized);
 		var p:Point = _json.gravity;
-		_space = new Space(time, new Vertex(p.x, p.y, p.z));
+		_space = new Space(time, new Vec(p.x, p.y, p.z));
 		_ePool = new NetworkEntityPool(ownerId, _creator, _space, this);
 		//_packer = new NetworkPacker(_ePool);
 		//_parser = new NetworkParser(_ePool, _creator, _space);
@@ -191,7 +191,7 @@ class WorldSimulator extends Director
 				entity.getBody().sweepTester = _bulletSweepTester;
 		}
 		_ePool.createGroupEntity(groupId, cast entity);
-		var o:Vertex = entity.getBody().getAABB().origin;
+		var o:Vec = entity.getBody().getAABB().origin;
 		if (center){
 			var aabb:AABB = entity.getBody().getAABB();
 			o.x = x - aabb.w * 0.5;
@@ -281,7 +281,7 @@ class WorldSimulator extends Director
 	public function getEntityZ(groupId:Int, entityId:Int):Float{
 		return getEntityCenterPoint(groupId, entityId).z;
 	}
-	private function getEntityCenterPoint(groupId:Int, entityId:Int):Vertex{
+	private function getEntityCenterPoint(groupId:Int, entityId:Int):Vec{
 		return (cast getEntity(groupId, entityId)).getBody().getAABB().origin;
 	}
 	private function getEntity(groupId:Int, entityId:Int):NetworkEntity{
@@ -439,7 +439,7 @@ class WorldSimulator extends Director
 			throw "bullet or victim was null";
 		}
 		var evt:NetworkEvent = new NetworkEvent(NetworkEvent.SCORED);
-		var center:Vertex =  victim.getBody().centerPoint();
+		var center:Vec =  victim.getBody().centerPoint();
 		evt.x = center.x;
 		evt.y = center.y;
 		evt.z = center.z;

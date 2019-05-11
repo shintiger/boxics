@@ -1,5 +1,5 @@
 package com.gigateam.world.physics;
-import com.gigateam.world.physics.shape.Vertex;
+import com.gigateam.world.physics.shape.Vec;
 
 /**
  * ...
@@ -18,7 +18,7 @@ class Impulse
 		z = _z;
 		w = _w;
 	}
-	public static function fromVertices(from:Vertex, to:Vertex, _w:Float=0):Impulse{
+	public static function fromVertices(from:Vec, to:Vec, _w:Float=0):Impulse{
 		var q:Impulse = new Impulse(to.x - from.x, to.y - from.y, to.z - from.z, _w);
 		q.normalize();
 		return q;

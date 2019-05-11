@@ -10,13 +10,13 @@ class Convex extends AABB{
 	private var _normalizedAngles:Array<Float>;
 	private var _normalizedRadians:Array<Float>;
 	
-	private var _renderingVertices:Array<Vertex>;
-	private var _renderingAxis:Array<Vertex>;
+	private var _renderingVertices:Array<Vec>;
+	private var _renderingAxis:Array<Vec>;
 	
 	private var _rotation:Float = 0;
 	private var _axis:Int;
-	private var _vertices:Array<Vertex>;
-	public function new(p:Vertex, vertices:Array<Vertex>, facingAxis:Int) 
+	private var _vertices:Array<Vec>;
+	public function new(p:Vec, vertices:Array<Vec>, facingAxis:Int) 
 	{
 		super(p, 0, 0, 0);
 		_vertices = [];
@@ -27,13 +27,13 @@ class Convex extends AABB{
 		_renderingAxis = [];
 		
 		_axis = facingAxis;
-		var vertex:Vertex;
+		var vertex:Vec;
 		for (v in vertices){
 			vertex = v;
-			_vertices.push(new Vertex(vertex.x, vertex.y, vertex.z));
-			_renderingVertices.push(new Vertex(vertex.x, vertex.y, vertex.z));
+			_vertices.push(new Vec(vertex.x, vertex.y, vertex.z));
+			_renderingVertices.push(new Vec(vertex.x, vertex.y, vertex.z));
 			
-			_renderingAxis.push(new Vertex(0, 0, 0));
+			_renderingAxis.push(new Vec(0, 0, 0));
 			
 			var dx:Float = vertex.x;
 			var dy:Float = vertex.y;
@@ -54,9 +54,9 @@ class Convex extends AABB{
 		updateRotation();
 		return true;
 	}
-	public function normalAt(index:Int, v:Vertex):Vertex{
-		var from:Vertex = _renderingVertices[index];
-		var to:Vertex;
+	public function normalAt(index:Int, v:Vec):Vec{
+		var from:Vec = _renderingVertices[index];
+		var to:Vec;
 		var toIndex:Int = index + 1;
 		if (toIndex > _renderingVertices.length){
 			return null;
@@ -78,7 +78,7 @@ class Convex extends AABB{
 		v.x = Math.cos(angle) * radian;
 		return p;
 	}
-	public function project(axis:Vertex, projectionResult:ProjectionResult):Void{
+	public function project(axis:Vec, projectionResult:ProjectionResult):Void{
 		
 	}
 	private function updateRotation():Void{
@@ -89,7 +89,7 @@ class Convex extends AABB{
 		var radian:Float;
 		
 		for (v in _renderingVertices.length){
-			var p:Vertex = v;
+			var p:Vec = v;
 			
 			radian = _normalizedRadians[i];
 			rot = _normalizedAngles[i] + angle;

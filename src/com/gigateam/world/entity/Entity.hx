@@ -15,7 +15,7 @@ import com.gigateam.world.physics.entity.BodyType;
 import com.gigateam.world.physics.entity.ICollisionNotifier;
 import com.gigateam.world.physics.shape.AABB;
 import com.gigateam.world.physics.shape.MovableAABB;
-import com.gigateam.world.physics.shape.Vertex;
+import com.gigateam.world.physics.shape.Vec;
 import com.gigateam.world.physics.timeline.DisplacementKeyframe;
 import com.gigateam.world.physics.timeline.TweenKeyframe;
 import com.gigateam.world.physics.timeline.TweenTimeline;
@@ -31,7 +31,7 @@ class Entity implements NetworkEntity implements ICollisionNotifier
 {
 	private static var tmpTween:TweenKeyframe = TweenKeyframe.empty();
 	
-	public var direction:Vertex;
+	public var direction:Vec;
 	public var director:Director;
 	public var creator:EntityCreator;
 	public var networkId:Int;
@@ -41,7 +41,7 @@ class Entity implements NetworkEntity implements ICollisionNotifier
 	public var rotationZ:Float = 0;
 	public var rotationX:Float = 0;
 	public var arr:Array<Int> = [];
-	public var offsetPos:Vertex;
+	public var offsetPos:Vec;
 	public var checksum:Int = 10279;
 	private var _isPassive:Bool = false;
 	private var lastUpdate:Int = 0;
@@ -58,12 +58,12 @@ class Entity implements NetworkEntity implements ICollisionNotifier
 	{
 		_offset = offset;
 		var bodyData:BodyData = data.bodies[0];
-		offsetPos = new Vertex(-bodyData.x, -bodyData.y, -bodyData.z);
+		offsetPos = new Vec(-bodyData.x, -bodyData.y, -bodyData.z);
 		body = new Body(data.bodyType, x, bodyData.xLength, y, bodyData.yLength, z, bodyData.zLength);
 		body.collisionNotifier = this;
 		tweenTimeline = new TweenTimeline(0, 150);
 		if (data.gravity != null){
-			body.gravityV = new Vertex(data.gravity.x, data.gravity.y, data.gravity.z);
+			body.gravityV = new Vec(data.gravity.x, data.gravity.y, data.gravity.z);
 		}
 	}
 	public function step(worldTime:Int):Void{
@@ -76,9 +76,9 @@ class Entity implements NetworkEntity implements ICollisionNotifier
 	public function isPassive():Bool{
 		return _isPassive;
 	}
-	public function getDisplayPos(v:Vertex):Vertex{
+	public function getDisplayPos(v:Vec):Vec{
 		if (v == null){
-			v = new Vertex();
+			v = new Vec();
 		}
 		v.cloneFrom(body.getAABB().origin);
 		v.plus(offsetPos);
@@ -87,7 +87,7 @@ class Entity implements NetworkEntity implements ICollisionNotifier
 	public function getTweenTimeline():TweenTimeline{
 		return tweenTimeline;
 	}
-	public function interpolate(time:Int, tmp:Bool = false):Vertex{
+	public function interpolate(time:Int, tmp:Bool = false):Vec{
 		if (!_isPassive){
 			throw "Non-passive entity not able to interpolate.";
 		}
@@ -110,10 +110,10 @@ class Entity implements NetworkEntity implements ICollisionNotifier
 		}
 		return tmpTween.origin;
 	}
-	public function collisionStart(body:Body, axis:Vertex, colliding:AABB, worldTime:Int):Void{
+	public function collisionStart(body:Body, axis:Vec, colliding:AABB, worldTime:Int):Void{
 		creator.collisionStart(this, axis, colliding, worldTime);
 	}
-	public function collisionEnd(body:Body, axis:Vertex, colliding:AABB, worldTime:Int):Void{
+	public function collisionEnd(body:Body, axis:Vec, colliding:AABB, worldTime:Int):Void{
 		creator.collisionEnd(this, axis, colliding, worldTime);
 	}
 	public function fall(body:Body, worldTime:Int):Void{
@@ -130,7 +130,7 @@ class Entity implements NetworkEntity implements ICollisionNotifier
 	}
 	public function pack(bytes:BytesStream, worldTime:Int=0):Int{
 		var originOffset:Int = bytes.offset();
-		var v:Vertex = body.getAABB().origin;
+		var v:Vec = body.getAABB().origin;
 		var flags:Int = 0;
 		var directional:Bool = false;
 		if (direction!=null){
@@ -164,7 +164,7 @@ class Entity implements NetworkEntity implements ICollisionNotifier
 		var z:Float = bytes.readInt32() / positionMagnitude;
 		if (directional){
 			if (direction == null){
-				direction = new Vertex();
+				direction = new Vec();
 			}
 			direction.x = bytes.readInt32() / rotationMagnitude;
 			direction.y = bytes.readInt32() / rotationMagnitude;

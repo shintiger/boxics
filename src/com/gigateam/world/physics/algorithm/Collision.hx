@@ -1,7 +1,7 @@
 package com.gigateam.world.physics.algorithm;
 import com.gigateam.world.physics.shape.AABB;
 import com.gigateam.world.physics.shape.MovableAABB;
-import com.gigateam.world.physics.shape.Vertex;
+import com.gigateam.world.physics.shape.Vec;
 
 /**
  * ...
@@ -87,7 +87,7 @@ class Collision
 		// if there was no collision
 		if (result.entryTime > exitTime || xEntry < 0 && yEntry < 0 && zEntry < 0 || xEntry > 1 || yEntry > 1 || zEntry > 1)
 		{
-			result.affectingAxis = new Vertex();
+			result.affectingAxis = new Vec();
 			result.normalX = 0;
 			result.normalY = 0;
 			result.normalZ = 0;
@@ -105,16 +105,16 @@ class Collision
 			if (result.entryTime==xEntry)
 			{
 				result.normalX = getNormal(xInvEntry, b1.origin.x, b2.origin.x);
-				result.affectingAxis = new Vertex(result.normalX * sign, 0, 0);
+				result.affectingAxis = new Vec(result.normalX * sign, 0, 0);
 			}
 			else if(result.entryTime==yEntry)
 			{
 				result.normalY = getNormal(yInvEntry, b1.origin.y, b2.origin.y);
-				result.affectingAxis = new Vertex(0, result.normalY * sign, 0);
+				result.affectingAxis = new Vec(0, result.normalY * sign, 0);
 			}else
 			{
 				result.normalZ = getNormal(zInvEntry, b1.origin.z, b2.origin.z);
-				result.affectingAxis = new Vertex(0, 0, result.normalZ * sign);
+				result.affectingAxis = new Vec(0, 0, result.normalZ * sign);
 			}
 			// return the time of collision
 			

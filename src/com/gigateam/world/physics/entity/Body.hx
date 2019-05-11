@@ -10,7 +10,7 @@ import com.gigateam.world.physics.math.AxisType;
 import com.gigateam.world.physics.shape.AABB;
 import com.gigateam.world.physics.shape.MovableAABB;
 import com.gigateam.world.physics.shape.OBB;
-import com.gigateam.world.physics.shape.Vertex;
+import com.gigateam.world.physics.shape.Vec;
 import com.gigateam.world.physics.timeline.DisplacementKeyframe;
 import com.gigateam.world.physics.timeline.DisplacementTimeline;
 import com.gigateam.world.physics.timeline.TweenKeyframe;
@@ -23,8 +23,8 @@ import com.gigateam.world.physics.timeline.TweenTimeline;
 class Body 
 {
 	public var interpolationType:Int = 0;
-	public var gravityV:Vertex = null;
-	public var movingVector:Vertex = new Vertex(0, 0, 0);
+	public var gravityV:Vec = null;
+	public var movingVector:Vec = new Vec(0, 0, 0);
 	public var collisionNotifier:ICollisionNotifier;
 	public var collidable:Bool = true;
 	public var moving:Bool = true;
@@ -61,18 +61,18 @@ class Body
 	private var _gravity:Float = 980;
 	private var _aabb:AABB;
 	private var _dTimeline:DisplacementTimeline;
-	private var _centerPoint:Vertex;
+	private var _centerPoint:Vec;
 	private var _centerPointUpdated:Bool = true;
 	private var _pendingImpulse:Impulse;
 	private var _tweening:TweenTimeline;
 	private var _collidee:Array<SweepTestResult>;
 	
-	private static var _o:Vertex = new Vertex(0, 0, 0);
-	private static var noGravity:Vertex = new Vertex();
+	private static var _o:Vec = new Vec(0, 0, 0);
+	private static var noGravity:Vec = new Vec();
 	public function new(bType:Int, x:Float, xLength:Float, y:Float, yLength:Float, z:Float=0, zLength:Float=1, rx:Float=0, ry:Float=0, rz:Float=0) 
 	{
 		if(bType==BodyType.DYNAMIC){
-			_aabb = new MovableAABB(new Vertex(x, y, z), xLength, 0, yLength, 0, zLength, 0);
+			_aabb = new MovableAABB(new Vec(x, y, z), xLength, 0, yLength, 0, zLength, 0);
 			_boost = new Acceleration(0, 0, 0);
 			_collidee = [];
 			_boostHorizontal = null;
@@ -80,21 +80,21 @@ class Body
 			_boostFullDirection = null;
 		}else if(bType==BodyType.STATIC){
 			if (rx == 0 && ry == 0 && rz == 0){
-				_aabb = new AABB(new Vertex(x, y, z), xLength, yLength, zLength);
+				_aabb = new AABB(new Vec(x, y, z), xLength, yLength, zLength);
 			}else{
-				_aabb = new OBB(new Vertex(x, y, z), xLength, yLength, zLength, rx, ry, rz);
+				_aabb = new OBB(new Vec(x, y, z), xLength, yLength, zLength, rx, ry, rz);
 			}
 		}
 		bodyType = bType;
 	}
-	public function setGravity(gravityVector:Vertex):Void{
+	public function setGravity(gravityVector:Vec):Void{
 		var t:Int = getGravityAxis(gravityVector);
 		if (t ==-1){
 			//return;
 		}
 		gravityV = gravityVector.clone();
 		var gravityMagnitude:Float = gravityVector.getMagnitude();
-		var g:Vertex = gravityVector.clone();
+		var g:Vec = gravityVector.clone();
 		g.normalize();
 		_gravityBoost = new Boost(g, gravityMagnitude, gravityMagnitude * 3);
 		_gravityType = t;
@@ -155,7 +155,7 @@ class Body
 	public function hasBoost():Bool{
 		return (_boostFullDirection != null || _boostHorizontal != null);
 	}
-	public function applyBooost(direction:Vertex, acceleration:Float, maxVelocity:Float, time:Int):Void{
+	public function applyBooost(direction:Vec, acceleration:Float, maxVelocity:Float, time:Int):Void{
 		if (_boostFullDirection == null){
 			_boostFullDirection = new Boost(direction.clone(), acceleration, maxVelocity);
 		}else{
@@ -167,7 +167,7 @@ class Body
 		_boostVertical = null;
 		_updatedBoost = true;
 	}
-	public function applyBoostHorizon(direction:Vertex, acceleration:Float, maxVelocity:Float, time:Int):Void{
+	public function applyBoostHorizon(direction:Vec, acceleration:Float, maxVelocity:Float, time:Int):Void{
 		if (_boostHorizontal == null){
 			_boostHorizontal = new Boost(direction.clone(), acceleration, maxVelocity);
 		}else{
@@ -178,7 +178,7 @@ class Body
 		_boostFullDirection = null;
 		_updatedBoost = true;
 	}
-	public function applyBoostVertical(direction:Vertex, acceleration:Float, maxVelocity:Float, time:Int):Void{
+	public function applyBoostVertical(direction:Vec, acceleration:Float, maxVelocity:Float, time:Int):Void{
 		if (_boostVertical == null){
 			_boostVertical = new Boost(direction.clone(), acceleration, maxVelocity);
 		}else{
@@ -190,7 +190,7 @@ class Body
 		_updatedBoost = true;
 	}
 	
-	public function init(space:Space, gravity:Vertex, offsetTime:Int):Void{
+	public function init(space:Space, gravity:Vec, offsetTime:Int):Void{
 		var defaultGravity:Bool = true;
 		if (gravityV == null){
 			defaultGravity = false;
@@ -198,7 +198,7 @@ class Body
 		}
 		_space = space;
 		if (bodyType == BodyType.DYNAMIC){
-			_boostFriction = new Boost(new Vertex(), 1, 1);
+			_boostFriction = new Boost(new Vec(), 1, 1);
 			//Using false to force update(default should be true)
 			_air = updateAir(false);
 			gravityAccel = new Acceleration();
@@ -211,7 +211,7 @@ class Body
 			
 			_dTimeline = new DisplacementTimeline(offsetTime);
 			_tweening = new TweenTimeline(offsetTime, 200);
-			var keyframe:DisplacementKeyframe = new DisplacementKeyframe(0, new Vertex(0, 0, 0), _aabb.origin, new Acceleration(0, 0, 0));
+			var keyframe:DisplacementKeyframe = new DisplacementKeyframe(0, new Vec(0, 0, 0), _aabb.origin, new Acceleration(0, 0, 0));
 			applyAcceleration(keyframe);
 			_dTimeline.insertKeyframe(keyframe);
 			insertTween(0, 0, 0, 0);
@@ -236,8 +236,8 @@ class Body
 		_updatedBoost = true;
 		_pendingImpulse = impulse;
 	}
-	private static var boostAccel:Vertex = new Vertex();
-	private static var boostMax:Vertex = new Vertex();
+	private static var boostAccel:Vec = new Vec();
+	private static var boostMax:Vec = new Vec();
 	private static function calcMaxVel(velocity:Float, acceleration:Float, boostMax:Float, gravity:Float):Float{
 		if (acceleration == 0){
 			return velocity;
@@ -263,7 +263,7 @@ class Body
 	public function isAir():Bool{
 		return _air;
 	}
-	private function projectForce(force:Vertex):Vertex{
+	private function projectForce(force:Vec):Vec{
 		for (result in _collidee){
 			force = Equation.slideVector(force, result.affectingAxis);
 		}
@@ -271,11 +271,11 @@ class Body
 	}
 	public function applyAcceleration(keyframe:DisplacementKeyframe, debug:Bool = false):Void{
 		var ac:Acceleration = keyframe.acceleration;
-		var inertia:Vertex = keyframe.inertia;
+		var inertia:Vec = keyframe.inertia;
 		//var frictionMagnitude:Float = frictionAir;
 		//var mag:Float = frictionAir;
 		//var fricV:Vertex;
-		var force:Vertex = projectForce(inertia);
+		var force:Vec = projectForce(inertia);
 		//Debugger.getInstance().log("------------------------------------------------");
 		var accelerator:Float = _air ? 1 : 5;
 		if (_boostFullDirection != null){
@@ -300,11 +300,11 @@ class Body
 	}
 	public function applyAccelerationOld2(keyframe:DisplacementKeyframe, debug:Bool=false):Void{
 		var ac:Acceleration = keyframe.acceleration;
-		var inertia:Vertex = keyframe.inertia;
+		var inertia:Vec = keyframe.inertia;
 		var frictionMagnitude:Float = frictionAir;
 		var mag:Float = frictionAir;
-		var fricV:Vertex;
-		var force:Vertex;
+		var fricV:Vec;
+		var force:Vec;
 		
 		if(!_air){
 			frictionMagnitude = frictionLand;
@@ -315,7 +315,7 @@ class Body
 		//fricV = force.clone();
 		//fricV.normalize();
 		//fricV.mul( -frictionMagnitude);
-		var targetVelocity:Vertex = _air ? gravityV : noGravity;
+		var targetVelocity:Vec = _air ? gravityV : noGravity;
 		//frictionMagnitude = fricV.getMagnitude();
 		_boost.getAccel(boostAccel);
 		_boost.getMaxVel(boostMax);
@@ -344,21 +344,21 @@ class Body
 			
 		return;
 	}
-	private function blendAccelerationMix(inertia:Vertex, gravity:Boost, out:Acceleration, horizontal:Boost, vertical:Boost, accelerationMultiplier:Float = 1):Bool{
-		var target:Vertex = horizontal.direction.clone();
+	private function blendAccelerationMix(inertia:Vec, gravity:Boost, out:Acceleration, horizontal:Boost, vertical:Boost, accelerationMultiplier:Float = 1):Bool{
+		var target:Vec = horizontal.direction.clone();
 		target.mul(horizontal.targetVelocity);
-		var g:Vertex = gravity.direction.clone();
+		var g:Vec = gravity.direction.clone();
 		g.normalize();
 		var dot:Float = target.dot(g);
 		var remain:Float;
-		var remainVector:Vertex;
+		var remainVector:Vec;
 		if (false && dot >= 0 && dot < gravity.targetVelocity){
 			remain = gravity.targetVelocity - dot;
 			remainVector = g.clone();
 			remainVector.mul(remain);
 			target.plus(remainVector);
 		}
-		var acc:Vertex = target.clone();
+		var acc:Vec = target.clone();
 		
 		target.plus(gravity.getVelocityVector());
 		target = projectForce(target);
@@ -384,7 +384,7 @@ class Body
 		
 		return true;
 	}
-	private function blendAccelerationMixOld(inertia:Vertex, gravity:Boost, out:Acceleration, horizontal:Boost, vertical:Boost, accelerationMultiplier:Float=1):Bool{
+	private function blendAccelerationMixOld(inertia:Vec, gravity:Boost, out:Acceleration, horizontal:Boost, vertical:Boost, accelerationMultiplier:Float=1):Bool{
 		if (vertical==null || vertical.direction.equalZero()){
 			return blendAcceleration(inertia, gravity, out, horizontal, accelerationMultiplier);
 		}else if (horizontal==null || horizontal.direction.equalZero()){
@@ -393,14 +393,14 @@ class Body
 		
 		horizontal.getVelocityVector(_o);
 		_o = projectForce(_o);
-		var horizontalAcc:Vertex = _o.clone();
+		var horizontalAcc:Vec = _o.clone();
 		_o.minus(inertia);
 		_o.mul(horizontal.acceleration);
 		
 		var remain:Float;
-		var remainVector:Vertex;
-		var verticalTarget:Vertex = vertical.getVelocityVector();
-		var g:Vertex = gravity.direction;
+		var remainVector:Vec;
+		var verticalTarget:Vec = vertical.getVelocityVector();
+		var g:Vec = gravity.direction;
 		var dot:Float = verticalTarget.dot(g);
 		if (dot >= 0 && dot < gravity.targetVelocity){
 			remain = gravity.targetVelocity - dot;
@@ -409,7 +409,7 @@ class Body
 			verticalTarget.plus(remainVector);
 		}
 		
-		var verticalAcc:Vertex = vertical.getAccelerationVector();
+		var verticalAcc:Vec = vertical.getAccelerationVector();
 		verticalAcc.mul(accelerationMultiplier);
 		dot = verticalAcc.dot(g);
 		if (dot >= 0 && dot < gravity.acceleration){
@@ -427,21 +427,21 @@ class Body
 		
 		return true;
 	}
-	private function blendAcceleration(inertia:Vertex, gravity:Boost, out:Acceleration, boost:Boost, accelerationMultiplier:Float=1):Bool{
-		var target:Vertex = boost.direction.clone();
+	private function blendAcceleration(inertia:Vec, gravity:Boost, out:Acceleration, boost:Boost, accelerationMultiplier:Float=1):Bool{
+		var target:Vec = boost.direction.clone();
 		target.mul(boost.targetVelocity);
-		var g:Vertex = gravity.direction.clone();
+		var g:Vec = gravity.direction.clone();
 		g.normalize();
 		var dot:Float = target.dot(g);
 		var remain:Float;
-		var remainVector:Vertex;
+		var remainVector:Vec;
 		if (false && dot >= 0 && dot < gravity.targetVelocity){
 			remain = gravity.targetVelocity - dot;
 			remainVector = g.clone();
 			remainVector.mul(remain);
 			target.plus(remainVector);
 		}
-		var acc:Vertex = target.clone();
+		var acc:Vec = target.clone();
 		
 		target.plus(gravity.getVelocityVector());
 		target = projectForce(target);
@@ -467,7 +467,7 @@ class Body
 		
 		return true;
 	}
-	private static function getGravityAxis(gravity:Vertex):Int{
+	private static function getGravityAxis(gravity:Vec):Int{
 		var mag:Float = gravity.getMagnitude();
 		if (Math.abs(gravity.x) == mag){
 			return AxisType.X;
@@ -516,7 +516,7 @@ class Body
 			return false;
 		}
 		var lastAccel:Acceleration = lastKeyframe.acceleration;
-		var inertia:Vertex = lastKeyframe.inertia;
+		var inertia:Vec = lastKeyframe.inertia;
 		var deltaTime:Float = (time-lastKeyframe.time) * 0.001;
 		
 		_dTimeline.getPositionOnly(time, _o);
@@ -555,7 +555,7 @@ class Body
 		//Cursor means when AABB's coordinate is
 		return _dTimeline.getCursor();
 	}
-	public function centerPoint():Vertex{
+	public function centerPoint():Vec{
 		if (_centerPointUpdated)
 			_centerPoint = _aabb.centerPoint();
 		_centerPointUpdated = false;
@@ -564,7 +564,7 @@ class Body
 	public function positionUpdated():Void{
 		_centerPointUpdated = true;
 	}
-	public function bottomPoint():Vertex{
+	public function bottomPoint():Vec{
 		return _aabb.zMinPoint();
 	}
 	public function x():Float{
@@ -576,12 +576,12 @@ class Body
 	public function z():Float{
 		return centerPoint().z;
 	}
-	public function collisionStart(axis:Vertex, colliding:AABB, worldTime:Int):Void{
+	public function collisionStart(axis:Vec, colliding:AABB, worldTime:Int):Void{
 		if (collisionNotifier != null){
 			collisionNotifier.collisionStart(this, axis, colliding, worldTime);
 		}
 	}
-	public function collisionEnd(axis:Vertex, colliding:AABB, worldTime:Int):Void{
+	public function collisionEnd(axis:Vec, colliding:AABB, worldTime:Int):Void{
 		if (collisionNotifier != null){
 			collisionNotifier.collisionEnd(this, axis, colliding, worldTime);
 		}

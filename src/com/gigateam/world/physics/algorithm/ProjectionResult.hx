@@ -1,5 +1,5 @@
 package com.gigateam.world.physics.algorithm;
-import com.gigateam.world.physics.shape.Vertex;
+import com.gigateam.world.physics.shape.Vec;
 
 /**
  * ...
@@ -7,18 +7,18 @@ import com.gigateam.world.physics.shape.Vertex;
  */
 class ProjectionResult
 {
-	public var velocity:Vertex;
+	public var velocity:Vec;
 	public var extent:Float;
 	public var entryTime:Float;
 	public var MTV:Float = 0;
-	public var axis:Vertex;
+	public var axis:Vec;
 	public var scalarLeftMax:Float;
 	public var scalarRightMax:Float;
 	public var scalarLeftMin:Float;
 	public var scalarRightMin:Float;
 	
-	public var direction:Vertex;
-	public var MTD:Vertex;
+	public var direction:Vec;
+	public var MTD:Vec;
 	public var MTDLength:Float;
 	public function new() 
 	{

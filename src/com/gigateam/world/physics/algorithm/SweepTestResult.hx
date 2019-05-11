@@ -1,6 +1,6 @@
 package com.gigateam.world.physics.algorithm;
 import com.gigateam.world.physics.shape.AABB;
-import com.gigateam.world.physics.shape.Vertex;
+import com.gigateam.world.physics.shape.Vec;
 
 /**
  * ...
@@ -12,7 +12,7 @@ class SweepTestResult
 	public var normalX:Int;
 	public var normalY:Int;
 	public var normalZ:Int;
-	public var affectingAxis:Vertex = new Vertex();
+	public var affectingAxis:Vec = new Vec();
 	public var ratio:Int = 10000;
 	public var isCollided:Bool;
 	public var target:AABB;

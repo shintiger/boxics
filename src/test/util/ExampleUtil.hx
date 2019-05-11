@@ -1,10 +1,10 @@
-package;
+package test.util;
 
 /**
  * ...
- * @author Tiger
+ * @author 
  */
-class TestExample  
+class ExampleUtil 
 {
 
 	public function new() 

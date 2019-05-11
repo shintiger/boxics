@@ -3,7 +3,7 @@ import com.gigateam.util.Debugger;
 import com.gigateam.world.physics.Acceleration;
 import com.gigateam.world.physics.Impulse;
 import com.gigateam.world.physics.algorithm.Equation;
-import com.gigateam.world.physics.shape.Vertex;
+import com.gigateam.world.physics.shape.Vec;
 
 /**
  * ...
@@ -39,14 +39,14 @@ class DisplacementTimeline extends Timeline
 		insertKeyframe(keyframe);
 	}*/
 	public function asKeyframe(time:Int):DisplacementKeyframe{
-		var o:Vertex = new Vertex(0, 0, 0);
+		var o:Vec = new Vec(0, 0, 0);
 		var accel:Acceleration = new Acceleration(0, 0, 0);
-		var inertia:Vertex = new Vertex(0, 0, 0);
+		var inertia:Vec = new Vec(0, 0, 0);
 		
 		var lastKeyframe:DisplacementKeyframe = cast lastFrame(time);
 		//var lastAccel:Acceleration = cast(lastKeyframe.inertia, Acceleration);
 		var lastAccel:Acceleration = lastKeyframe.acceleration;
-		var lastInertia:Vertex = lastKeyframe.inertia;
+		var lastInertia:Vec = lastKeyframe.inertia;
 		
 		var deltaTime:Float = (time-lastKeyframe.time) * 0.001;
 		
@@ -59,7 +59,7 @@ class DisplacementTimeline extends Timeline
 		var keyframe:DisplacementKeyframe = new DisplacementKeyframe(time, inertia, o, accel);
 		return keyframe;
 	}
-	public function getPosition(time:Int, o:Vertex, inertia:Vertex):Void{
+	public function getPosition(time:Int, o:Vec, inertia:Vec):Void{
 		var lastKeyframe:DisplacementKeyframe = cast lastFrame(time);
 		//var lastAccel:Acceleration = lastKeyframe.acceleration;
 		//var lastInertia:Vertex = lastKeyframe.inertia;
@@ -100,7 +100,7 @@ class DisplacementTimeline extends Timeline
 		}
 		*/
 	}
-	public function getPositionOnly(time:Int, o:Vertex):Void{
+	public function getPositionOnly(time:Int, o:Vec):Void{
 		var lastKeyframe:DisplacementKeyframe = cast lastFrame(time);
 		//var lastAccel:Acceleration = lastKeyframe.acceleration;
 		//var lastInertia:Vertex = lastKeyframe.inertia;

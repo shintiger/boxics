@@ -2,7 +2,7 @@ package com.gigateam.world.physics.timeline;
 import com.gigateam.world.physics.Acceleration;
 import com.gigateam.world.physics.Impulse;
 import com.gigateam.world.physics.algorithm.Equation;
-import com.gigateam.world.physics.shape.Vertex;
+import com.gigateam.world.physics.shape.Vec;
 
 /**
  * ...
@@ -13,23 +13,23 @@ class DisplacementKeyframe extends Keyframe
 	public var durationX:Float = -1;
 	public var durationY:Float = -1;
 	public var durationZ:Float = -1;
-	public var inertia:Vertex;
+	public var inertia:Vec;
 	public var acceleration:Acceleration;
-	public var origin:Vertex;
-	private var deccelEndDisplacement:Vertex;
-	private var deccelEndInertia:Vertex;
+	public var origin:Vec;
+	private var deccelEndDisplacement:Vec;
+	private var deccelEndInertia:Vec;
 	private var accel:Acceleration;
 	private var deccel:Acceleration;
 	private var concentric:Float = 1;
 	private var deccelDurationX:Float =-1;
 	private var deccelDurationY:Float =-1;
 	private var deccelDurationZ:Float =-1;
-	public function new(_time:Int, inert:Vertex, o:Vertex, accelerate:Acceleration) 
+	public function new(_time:Int, inert:Vec, o:Vec, accelerate:Acceleration) 
 	{
 		super(_time);
 		inertia = inert;
 		acceleration = accelerate;
-		deccelEndDisplacement = new Vertex();
+		deccelEndDisplacement = new Vec();
 		origin = o.clone();
 	}
 	public function durationMax():Int{
@@ -61,7 +61,7 @@ class DisplacementKeyframe extends Keyframe
 		//When force and acceleration are not zero, and force and acceleration are reversed way
 		return acceleration + ((force > 0)?Math.min(friction, -friction):Math.max(friction, -friction));
 	}
-	public function applyFriction(friction:Float, targetVelocity:Vertex):Void{
+	public function applyFriction(friction:Float, targetVelocity:Vec):Void{
 		/*concentric = friction;
 		
 		deccel = new Acceleration();
@@ -134,7 +134,7 @@ class DisplacementKeyframe extends Keyframe
 		durationY += deccelDurationY;
 		durationZ += deccelDurationZ;*/
 	}
-	public function getPosition(o:Vertex, deltaTime:Float, force:Vertex = null):Void{
+	public function getPosition(o:Vec, deltaTime:Float, force:Vec = null):Void{
 		var updateForce:Bool = force != null;
 		if (durationX >= 0 && durationX <= deltaTime){
 			o.x = Equation.axisDisplacement(inertia.x, acceleration.accelerationX, durationX);
@@ -175,7 +175,7 @@ class DisplacementKeyframe extends Keyframe
 			}
 		}
 	}
-	public function getPosition2Way(o:Vertex, deltaTime:Float, force:Vertex=null):Void{
+	public function getPosition2Way(o:Vec, deltaTime:Float, force:Vec=null):Void{
 		var tier:Int = 1;
 		
 		//Start X axis--------------------------------------------------------------------------------------------------------

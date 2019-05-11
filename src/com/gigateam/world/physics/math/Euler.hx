@@ -1,6 +1,6 @@
 package com.gigateam.world.physics.math;
 import com.gigateam.world.physics.algorithm.Equation;
-import com.gigateam.world.physics.shape.Vertex;
+import com.gigateam.world.physics.shape.Vec;
 
 /**
  * ...
@@ -14,7 +14,7 @@ class Euler
 	{
 		
 	}
-	public static function fromVertices(from:Vertex, to:Vertex):Euler{
+	public static function fromVertices(from:Vec, to:Vec):Euler{
 		var e:Euler = new Euler();
 		Equation.resolveAngle(from, to, e);
 		return e;
@@ -25,9 +25,9 @@ class Euler
 		e.rz = rotationZ;
 		return e;
 	}
-	public function toDirection(distance:Int, out:Vertex):Vertex{
+	public function toDirection(distance:Int, out:Vec):Vec{
 		if (out == null){
-			out = new Vertex(0, 0);
+			out = new Vec(0, 0);
 		}
 		Equation.resolveVector(rx, rz, distance, out);
 		return out;

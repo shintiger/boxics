@@ -1,12 +1,8 @@
 package com.gigateam.world;
-import com.gigateam.crypto.asym.RSA;
-import com.gigateam.crypto.asym.RSAKey;
-import com.gigateam.crypto.asym.RSAKeyGenerator;
-import com.gigateam.util.Benchmark;
 import com.gigateam.world.physics.TestTemplate;
 import com.gigateam.world.physics.algorithm.SweepTestResult;
 import com.gigateam.world.physics.shape.AABB;
-import com.gigateam.world.physics.shape.Vertex;
+import com.gigateam.world.physics.shape.Vec;
 import haxe.Json;
 
 

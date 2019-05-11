@@ -6,13 +6,13 @@ package com.gigateam.world.physics.shape;
  */
 class AABB extends Bounding
 {
-	public var vertexes:Array<Vertex> = [];
+	public var vertexes:Array<Vec> = [];
 	public var node:AABBTreeNode;
 	public var w:Float;
 	public var h:Float;
 	public var d:Float;
 	public var rotatedAxises:UInt = 0;
-	public function new(p:Vertex, _width:Float, _height:Float, _depth:Float=1) 
+	public function new(p:Vec, _width:Float, _height:Float, _depth:Float=1) 
 	{
 		super(p);
 		boundingType = 1;
@@ -57,7 +57,7 @@ class AABB extends Bounding
 		n.d = Math.max(maxpoint1, maxpoint2) - n.origin.z;
 		return n;
 	}
-	private function createGlobalVertex(minX:Bool, minY:Bool, minZ:Bool, out:Vertex = null):Vertex{
+	private function createGlobalVertex(minX:Bool, minY:Bool, minZ:Bool, out:Vec = null):Vec{
 		out = createVertex(minX, minY, minZ, out);
 		//out.x += origin.x;
 		//out.y += origin.y;
@@ -65,9 +65,9 @@ class AABB extends Bounding
 		
 		return out;
 	}
-	private function createVertex(minX:Bool, minY:Bool, minZ:Bool, out:Vertex=null):Vertex{
+	private function createVertex(minX:Bool, minY:Bool, minZ:Bool, out:Vec=null):Vec{
 		if (out == null){
-			out = new Vertex(0, 0);
+			out = new Vec(0, 0);
 		}
 		var halfWidth:Float = w * 0.5;
 		var halfHeight:Float = h * 0.5;
@@ -78,21 +78,21 @@ class AABB extends Bounding
 		
 		return out;
 	}
-	public function axisX():Vertex{
-		var cp:Vertex = centerPoint();
-		var v:Vertex = new Vertex(w * 0.5 + cp.x, 0, 0);
+	public function axisX():Vec{
+		var cp:Vec = centerPoint();
+		var v:Vec = new Vec(w * 0.5 + cp.x, 0, 0);
 		v.normalize();
 		return v;
 	}
-	public function axisY():Vertex{
-		var cp:Vertex = centerPoint();
-		var v:Vertex = new Vertex(0, h * 0.5 + cp.y, 0);
+	public function axisY():Vec{
+		var cp:Vec = centerPoint();
+		var v:Vec = new Vec(0, h * 0.5 + cp.y, 0);
 		v.normalize();
 		return v;
 	}
-	public function axisZ():Vertex{
-		var cp:Vertex = centerPoint();
-		var v:Vertex = new Vertex(0, 0, d * 0.5 + cp.z);
+	public function axisZ():Vec{
+		var cp:Vec = centerPoint();
+		var v:Vec = new Vec(0, 0, d * 0.5 + cp.z);
 		v.normalize();
 		return v;
 	}
@@ -111,30 +111,30 @@ class AABB extends Bounding
 				origin.z<=aabb.origin.z && maxZ>=maxZ2 ;
 	}
 	public static function create():AABB{
-		var aabb:AABB = new AABB(new Vertex(0, 0), 1, 1);
+		var aabb:AABB = new AABB(new Vec(0, 0), 1, 1);
 		return aabb;
 	}
-	public function centerPoint(v:Vertex = null):Vertex{
+	public function centerPoint(v:Vec = null):Vec{
 		if(v==null){
-			v = new Vertex(0, 0);
+			v = new Vec(0, 0);
 		}
 		v.x = origin.x + w * 0.5;
 		v.y = origin.y + h * 0.5;
 		v.z = origin.z + d * 0.5;
 		return v;
 	}
-	public function zMaxPoint(v:Vertex = null):Vertex{
+	public function zMaxPoint(v:Vec = null):Vec{
 		if(v==null){
-			v = new Vertex(0, 0);
+			v = new Vec(0, 0);
 		}
 		v.x = origin.x + w * 0.5;
 		v.y = origin.y + h * 0.5;
 		v.z = origin.z + d;
 		return v;
 	}
-	public function zMinPoint(v:Vertex = null):Vertex{
+	public function zMinPoint(v:Vec = null):Vec{
 		if(v==null){
-			v = new Vertex(0, 0);
+			v = new Vec(0, 0);
 		}
 		v.x = origin.x + w * 0.5;
 		v.y = origin.y + h * 0.5;

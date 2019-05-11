@@ -1,5 +1,5 @@
 package com.gigateam.world.physics.timeline;
-import com.gigateam.world.physics.shape.Vertex;
+import com.gigateam.world.physics.shape.Vec;
 
 /**
  * ...
@@ -10,11 +10,11 @@ class TweenKeyframe extends Keyframe
 	public var faceRotation:Float = 0;
 	public var rotationZ:Float = 0;
 	public var rotationX:Float = 0;
-	public var origin:Vertex;
+	public var origin:Vec;
 	public function new(_time:Int, x:Float=0, y:Float=0, z:Float=0, rotZ:Float=0, rotX:Float=0, rotFace:Float=0) 
 	{
 		super(_time);
-		origin = new Vertex(x, y, z);
+		origin = new Vec(x, y, z);
 		rotationZ = rotZ;
 		rotationX = rotX;
 		faceRotation = rotFace;

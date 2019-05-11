@@ -7,13 +7,13 @@ package com.gigateam.world.physics.shape;
 class Bounding
 {
 	public var boundingType:Int;
-	public var origin:Vertex;
-	public function new(p:Vertex) 
+	public var origin:Vec;
+	public function new(p:Vec) 
 	{
-		origin = new Vertex(p.x, p.y, p.z);
+		origin = new Vec(p.x, p.y, p.z);
 		boundingType = 0;
 	}
-	public function getCentralPoint():Vertex{
+	public function getCentralPoint():Vec{
 		return origin;
 	}
 }

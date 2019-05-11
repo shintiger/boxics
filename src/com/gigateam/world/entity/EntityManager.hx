@@ -7,7 +7,7 @@ import com.gigateam.world.logic.status.Character;
 import com.gigateam.world.network.NetworkEvent;
 import com.gigateam.world.network.Payload.NetworkEntity;
 import com.gigateam.world.physics.shape.AABB;
-import com.gigateam.world.physics.shape.Vertex;
+import com.gigateam.world.physics.shape.Vec;
 import haxe.io.Bytes;
 
 /**
@@ -23,8 +23,8 @@ interface EntityCreator{
 	public function isAuthorized():Bool;
 	public function validate(entity:Entity):Bool;
 	public function init(data:Array<EntityData>, authorized:Bool, defaultCollidable:Bool):Void;
-	public function collisionStart(entity:Entity, axis:Vertex, colliding:AABB, worldTime:Int):Void;
-	public function collisionEnd(entity:Entity, axis:Vertex, colliding:AABB, worldTime:Int):Void;
+	public function collisionStart(entity:Entity, axis:Vec, colliding:AABB, worldTime:Int):Void;
+	public function collisionEnd(entity:Entity, axis:Vec, colliding:AABB, worldTime:Int):Void;
 	public function fall(entity:Entity, worldTime:Int):Void;
 	public function land(entity:Entity, worldTime:Int):Void;
 	public function stateChanged(entity:StatefulEntity, state:Int, offsetTime:Int):Void;
@@ -41,7 +41,7 @@ class EntityManager implements EntityCreator
 	{
 		scheduler = _scheduler;
 	}
-	public function collisionStart(entity:Entity, axis:Vertex, colliding:AABB, worldTime:Int):Void{
+	public function collisionStart(entity:Entity, axis:Vec, colliding:AABB, worldTime:Int):Void{
 		switch(entity.libId){
 			//bullet
 			case 11:
@@ -51,7 +51,7 @@ class EntityManager implements EntityCreator
 	public function handleEvent(event:NetworkEvent):Void{
 		
 	}
-	public function collisionEnd(entity:Entity, axis:Vertex, colliding:AABB, worldTime:Int):Void{
+	public function collisionEnd(entity:Entity, axis:Vec, colliding:AABB, worldTime:Int):Void{
 		
 	}
 	public function fall(entity:Entity, worldTime:Int):Void{

@@ -1,5 +1,5 @@
 package com.gigateam.world.physics;
-import com.gigateam.world.physics.shape.Vertex;
+import com.gigateam.world.physics.shape.Vec;
 
 /**
  * ...
@@ -7,10 +7,10 @@ import com.gigateam.world.physics.shape.Vertex;
  */
 class Boost 
 {
-	public var direction:Vertex;
+	public var direction:Vec;
 	public var acceleration:Float;
 	public var targetVelocity:Float;
-	public function new(dir:Vertex, acc:Float, velocity:Float, skipDirectionClone:Bool=false) 
+	public function new(dir:Vec, acc:Float, velocity:Float, skipDirectionClone:Bool=false) 
 	{
 		direction = skipDirectionClone ? dir.clone() : dir;
 		direction.normalize();
@@ -18,12 +18,12 @@ class Boost
 		targetVelocity = Math.abs(velocity);
 	}
 	public static function fromXYZ(dirX:Float, dirY:Float, dirZ:Float, acc:Float, velocity:Float):Boost{
-		var b:Boost = new Boost(new Vertex(dirX, dirY, dirZ), acc, velocity);
+		var b:Boost = new Boost(new Vec(dirX, dirY, dirZ), acc, velocity);
 		return b;
 	}
-	public function getVelocityVector(out:Vertex=null):Vertex{
+	public function getVelocityVector(out:Vec=null):Vec{
 		if (out == null){
-			out = new Vertex();
+			out = new Vec();
 		}
 		
 		out.cloneFrom(direction);
@@ -31,9 +31,9 @@ class Boost
 		out.mul(targetVelocity);
 		return out;
 	}
-	public function getAccelerationVector(out:Vertex=null):Vertex{
+	public function getAccelerationVector(out:Vec=null):Vec{
 		if (out == null){
-			out = new Vertex();
+			out = new Vec();
 		}
 		
 		out.cloneFrom(direction);

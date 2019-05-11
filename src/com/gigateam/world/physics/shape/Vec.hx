@@ -4,7 +4,7 @@ package com.gigateam.world.physics.shape;
  * ...
  * @author Tiger
  */
-class Vertex
+class Vec
 {
 	public var x:Float;
 	public var y:Float;
@@ -15,16 +15,16 @@ class Vertex
 		y = _y;
 		z = _z;
 	}
-	public function dot(b:Vertex):Float{
+	public function dot(b:Vec):Float{
 		var scalar:Float = 0;
 		scalar += x * b.x;
 		scalar += y * b.y;
 		scalar += z * b.z;
 		return scalar;
 	}
-	public function cross(b:Vertex, out:Vertex=null):Vertex{
+	public function cross(b:Vec, out:Vec=null):Vec{
 		if(out==null){
-			out = new Vertex();
+			out = new Vec();
 		}
 		out.x = y * b.z - z * b.y;
 		out.y = z * b.x - x * b.z;
@@ -32,7 +32,7 @@ class Vertex
 		
 		return out;
 	}
-	public function mul(magnitude:Float):Vertex{
+	public function mul(magnitude:Float):Vec{
 		x *= magnitude;
 		y *= magnitude;
 		z *= magnitude;
@@ -44,25 +44,25 @@ class Vertex
 	public function length():Float{
 		return Math.sqrt(x * x + y * y + z * z);
 	}
-	public function clone(out:Vertex=null):Vertex{
+	public function clone(out:Vec=null):Vec{
 		if (out == null){
-			out = new Vertex();
+			out = new Vec();
 		}
 		out.cloneFrom(this);
 		return out;
 	}
-	public function cloneFrom(src:Vertex):Void{
+	public function cloneFrom(src:Vec):Void{
 		x = src.x;
 		y = src.y;
 		z = src.z;
 	}
-	public function plus(v:Vertex):Vertex{
+	public function plus(v:Vec):Vec{
 		x += v.x;
 		y += v.y;
 		z += v.z;
 		return this;
 	}
-	public function minus(v:Vertex):Vertex{
+	public function minus(v:Vec):Vec{
 		x -= v.x;
 		y -= v.y;
 		z -= v.z;

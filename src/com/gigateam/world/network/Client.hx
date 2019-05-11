@@ -7,7 +7,7 @@ import com.gigateam.world.network.ClientInputStream.IInputStream;
 import com.gigateam.world.network.Payload.NetworkEntity;
 import com.gigateam.world.network.Payload.Packable;
 import com.gigateam.world.physics.Impulse;
-import com.gigateam.world.physics.shape.Vertex;
+import com.gigateam.world.physics.shape.Vec;
 
 /**
  * ...

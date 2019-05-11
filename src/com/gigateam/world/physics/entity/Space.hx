@@ -12,7 +12,7 @@ import com.gigateam.world.physics.shape.AABBTree;
 import com.gigateam.world.physics.shape.AABBTreeNode;
 import com.gigateam.world.physics.shape.MovableAABB;
 import com.gigateam.world.physics.shape.OBB;
-import com.gigateam.world.physics.shape.Vertex;
+import com.gigateam.world.physics.shape.Vec;
 import com.gigateam.world.physics.timeline.DisplacementKeyframe;
 import com.gigateam.world.physics.timeline.TweenKeyframe;
 import haxe.ds.GenericStack;
@@ -29,9 +29,9 @@ class Space
 	private var _movableTree:AABBTree;
 	private var _staticTree:AABBTree;
 	private var _offsetTime:Int;
-	private var _gravity:Vertex;
+	private var _gravity:Vec;
 	private var debugStr:String = "";
-	public function new(offsetTime:Int, gravity:Vertex) 
+	public function new(offsetTime:Int, gravity:Vec) 
 	{
 		_movableBody = new GenericStack<Body>();
 		_movableTree = new AABBTree(10);
@@ -65,7 +65,7 @@ class Space
 			_staticTree.update();
 		}
 	}
-	public function spawnBody(body:Body, spawnAt:Int, gravity:Vertex=null):Void{
+	public function spawnBody(body:Body, spawnAt:Int, gravity:Vec=null):Void{
 		spawnAt -= _offsetTime;
 		if (body.bodyType == BodyType.DYNAMIC){
 			_movableBody.add(body);
@@ -156,7 +156,7 @@ class Space
 				continue;
 			}
 			if (body.debug){
-				var origin:Vertex = body.getAABB().origin;
+				var origin:Vec = body.getAABB().origin;
 				//Debugger.getInstance().log("pos:"+origin.toString());
 			}
 			var impulse:Impulse = body.popImpulse();
@@ -167,7 +167,7 @@ class Space
 			var normalX:Int = 0;
 			var normalY:Int = 0;
 			var normalZ:Int = 0;
-			var moving:Vertex = new Vertex(aabb.vx, aabb.vy, aabb.vz);
+			var moving:Vec = new Vec(aabb.vx, aabb.vy, aabb.vz);
 			var movingDistance:Float = moving.length();
 			Collision.getSweptBroadphaseBox(aabb, broadphase);
 			

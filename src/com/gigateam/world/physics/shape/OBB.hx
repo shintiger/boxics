@@ -19,9 +19,9 @@ class OBB extends AABB
 	private var ry:Float;
 	private var rz:Float;
 	private var transform:Transform3D = new Transform3D();
-	private var axises:Array<Vertex>;
+	private var axises:Array<Vec>;
 	private static inline var HUGH:Float = 1000000;
-	public function new(minVertex:Vertex, _width:Float, _height:Float, _depth:Float, rotationX:Float, rotationY:Float, rotationZ:Float)
+	public function new(minVertex:Vec, _width:Float, _height:Float, _depth:Float, rotationX:Float, rotationY:Float, rotationZ:Float)
 	{
 		super(minVertex, _width, _height, _depth);
 		boundingType = 2;
@@ -75,18 +75,18 @@ class OBB extends AABB
 		axises.push(getAxis(0, 2));
 		axises.push(getAxis(0, 3));
 	}
-	override public function axisX():Vertex{
+	override public function axisX():Vec{
 		return axises[0];
 	}
-	override public function axisY():Vertex{
+	override public function axisY():Vec{
 		return axises[1];
 	}
-	override public function axisZ():Vertex{
+	override public function axisZ():Vec{
 		return axises[2];
 	}
-	private function getAxis(from:UInt, to:UInt, out:Vertex = null):Vertex{
+	private function getAxis(from:UInt, to:UInt, out:Vec = null):Vec{
 		if (out==null){
-			out = new Vertex();
+			out = new Vec();
 		}
 		out.x = (vertexes[to].x - vertexes[from].x) * 0.5;
 		out.y = (vertexes[to].y - vertexes[from].y) * 0.5;
@@ -149,7 +149,7 @@ class OBB extends AABB
 		}
 		return num;
 	}
-	override private function createGlobalVertex(minX:Bool, minY:Bool, minZ:Bool, out:Vertex=null):Vertex{
+	override private function createGlobalVertex(minX:Bool, minY:Bool, minZ:Bool, out:Vec=null):Vec{
 		out = createVertex(minX, minY, minZ, out);
 		return localToGlobal(out);
 	}
@@ -162,10 +162,10 @@ class OBB extends AABB
 		
 		return transform;
 	}
-	private function localToGlobal(v:Vertex, out:Vertex = null):Vertex{
+	private function localToGlobal(v:Vec, out:Vec = null):Vec{
 		var trm:Transform3D = transform;
 		if (out == null){
-			out = new Vertex(0, 0);
+			out = new Vec(0, 0);
 		}
 		//out.x = trm.a * v.x + trm.b * v.y + trm.c * v.z + trm.d; 
 		//out.y = trm.e * v.x + trm.f * v.y + trm.g * v.z + trm.h;
@@ -177,9 +177,9 @@ class OBB extends AABB
 		return out;
 	}
 	public function collideMovableAABB(aabb:MovableAABB, sr:SweepTestResult):ProjectionResult{
-		var axis:Vertex;
+		var axis:Vec;
 		var translationVector:Float;
-		var axises:Array<Vertex> = [];
+		var axises:Array<Vec> = [];
 		var i:Int;
 		
 		createVertexes();
@@ -222,9 +222,9 @@ class OBB extends AABB
 		var minExit:Float = HUGH;
 		var maxEntryAxisIndex:Int =-1;
 		var noAxisOverlapping:Bool = true;
-		var affecting:Vertex = null;
+		var affecting:Vec = null;
 		
-		var velocity:Vertex = new Vertex(aabb.vx, aabb.vy, aabb.vz);
+		var velocity:Vec = new Vec(aabb.vx, aabb.vy, aabb.vz);
 		
 		var entry:Float;
 		var exit:Float;
@@ -314,10 +314,10 @@ class OBB extends AABB
 		}
 		return pr;
 	}
-	public function collideAABB(aabb:AABB, velocity:Vertex=null):ProjectionResult{
-		var axis:Vertex;
+	public function collideAABB(aabb:AABB, velocity:Vec=null):ProjectionResult{
+		var axis:Vec;
 		var translationVector:Float;
-		var axises:Array<Vertex> = [];
+		var axises:Array<Vec> = [];
 		var i:Int;
 		
 		createVertexes();
@@ -393,12 +393,12 @@ class OBB extends AABB
 		}
 		return (l1min < l2min)? (l1max - l2min) : (l1min - l2max);
 	}
-	private static function getScalarRange(axis:Vertex, aabb:AABB, extent:Float=0):Array<Float>{
+	private static function getScalarRange(axis:Vec, aabb:AABB, extent:Float=0):Array<Float>{
 		var v:Array<Float> = [];
 		var min:Float = HUGH;
 		var max:Float = -HUGH;
 		var i:Int;
-		var center:Vertex = aabb.centerPoint();
+		var center:Vec = aabb.centerPoint();
 		
 		for (i in 0...aabb.vertexes.length){
 			var scalar:Float =  axis.dot(aabb.vertexes[i].clone().plus(center));
