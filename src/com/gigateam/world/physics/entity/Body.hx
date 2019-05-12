@@ -1,5 +1,4 @@
 package com.gigateam.world.physics.entity;
-import com.gigateam.util.Debugger;
 import com.gigateam.world.physics.Acceleration;
 import com.gigateam.world.physics.Boost;
 import com.gigateam.world.physics.Impulse;

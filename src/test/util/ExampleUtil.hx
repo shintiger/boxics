@@ -12,4 +12,15 @@ class ExampleUtil
 		
 	}
 	
+	public static function toSpaceTime(time:Float):Int{
+		return Std.int(time * 1000);
+	}
+	
+	public static function spaceSysTime():Int{
+		return toSpaceTime(sysTime() * 1000);
+	}
+	
+	public static function sysTime():Float{
+		return Sys.time();
+	}
 }

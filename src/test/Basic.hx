@@ -8,8 +8,6 @@ import com.gigateam.world.physics.shape.Vec;
  */
 class Basic extends Base
 {
-	var space:Space;
-	
 	static function main(){
 		new Basic();
 	}
@@ -21,11 +19,9 @@ class Basic extends Base
 	
 	override public function init():Void{
 		super.init();
-		space = new Space(0, new Vec(0, 0, -0.98));
 	}
 	
 	override public function update(dt:Float):Void{
 		super.update(dt);
-		space.advance(collapsedTime);
 	}
 }
