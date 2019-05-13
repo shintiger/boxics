@@ -17,7 +17,7 @@ class ExampleUtil
 	}
 	
 	public static function spaceSysTime():Int{
-		return toSpaceTime(sysTime() * 1000);
+		return toSpaceTime(sysTime());
 	}
 	
 	public static function sysTime():Float{

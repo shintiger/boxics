@@ -137,6 +137,7 @@ class Space
 			}else if (!body.moving){
 				continue;
 			}
+			
 			//Rewunded time of this body
 			var objTime:Int = time-body.rewund;
 			var lastKeyframe:DisplacementKeyframe;

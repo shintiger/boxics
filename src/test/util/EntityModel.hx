@@ -41,9 +41,9 @@ class EntityModel
 		if (v == null){
 			v = new Vec();
 		}
-		v.cloneFrom(body.getAABB().origin);
+		v.cloneFrom(data.getAABB().origin);
 		v.plus(offsetPos);
-		
+		//trace(v.x, v.y, v.z);
 		display.setPosition(v.x, v.y, v.z);
 	}
 }

@@ -77,7 +77,7 @@ class Body
 			_boostHorizontal = null;
 			_boostVertical = null;
 			_boostFullDirection = null;
-		}else if(bType==BodyType.STATIC){
+		}else if (bType == BodyType.STATIC){
 			if (rx == 0 && ry == 0 && rz == 0){
 				_aabb = new AABB(new Vec(x, y, z), xLength, yLength, zLength);
 			}else{
@@ -511,7 +511,9 @@ class Body
 		
 		var lastKeyframe:DisplacementKeyframe = cast _dTimeline.lastFrame(time);
 		if (lastKeyframe == null){
+			
 			//Debugger.getInstance().log("otime:"+otime+", time:" + time+", dTimeline.offset:" + _dTimeline.offset);
+			//trace(_dTimeline.totalFrames(), time);
 			return false;
 		}
 		var lastAccel:Acceleration = lastKeyframe.acceleration;

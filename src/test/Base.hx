@@ -35,22 +35,24 @@ class Base extends App
 		
 		var light:DirLight = new DirLight(new Vector(0.5, 0.5, -0.5), s3d);
 		light.enableSpecular = true;
-		// set the ambient light to 30%
+		// set the ambient light to 30%d
 		s3d.lightSystem.ambientLight.set(0.3, 0.3, 0.3);
+		var dist = 30;
+		s3d.camera.pos.set(Math.cos(1) * dist, Math.sin(1) * dist, dist * 0.7 * Math.sin(1));
 		
-		space = new Space(0, new Vec(0, 0, -0.98));
+		space = new Space(ExampleUtil.spaceSysTime(), new Vec(0, 0, -9.8));
 	}
 	
 	override function update( dt : Float ):Void 
 	{
 		collapsedTime += dt;
-		space.advance(ExampleUtil.toSpaceTime(collapsedTime));
+		space.advance(ExampleUtil.spaceSysTime());
 		for (entity in dynamicBody){
 			entity.updateDisplay();
 		}
 	}
 	
-	private static function createDisplayCube(size:Vec, coord:Vec, color:Int):Mesh
+	private function createDisplayCube(size:Vec, coord:Vec, color:Int):Mesh
 	{
 		var prim:Cube = new Cube(size.x, size.y, size.z, true);
 		var obj:Mesh;
@@ -65,32 +67,36 @@ class Base extends App
 		return obj;
 	}
 	
-	private static function createEntity(size:Vec, coord:Vec, bodyType:Int, color:Int, rot:Vec):EntityModel
+	private function createEntity(size:Vec, coord:Vec, bodyType:Int, color:Int, rot:Vec):EntityModel
 	{
 		switch(bodyType){
 			case BodyType.STATIC:
-				rot = new Vec();
+				color = color * 1;
 			case BodyType.DYNAMIC:
-				rot = rot;
+				rot = new Vec();
 			default:
 				throw "Unknown bodyType";
 		}
-		var mesh:Mesh = createDisplayCube(size.x, size.y, size.z, coord.x, coord.y, coord.z, color);
+		var mesh:Mesh = createDisplayCube(size, coord, color);
+		mesh.setRotation(rot.x, rot.y, rot.z);
 		var body:Body = new Body(bodyType, coord.x, size.x, coord.y, size.y, coord.z, size.z, rot.x, rot.y, rot.z);
 		var model:EntityModel = new EntityModel(body, mesh);
 		return model;
 	}
 	
-	private function addStatic(size:Vec, coord:Vec, bodyType:Int, rot:Vec, color:Int):EntityModel
+	private function addStatic(size:Vec, coord:Vec, rot:Vec, color:Int):EntityModel
 	{
-		var entity:EntityModel = createEntity(size, coord, bodyType, color, rot);
+		var entity:EntityModel = createEntity(size, coord, BodyType.STATIC, color, rot);
 		space.spawnBody(entity.data, ExampleUtil.spaceSysTime());
+		return entity;
 	}
 	
-	private function addDynamic(size:Vec, coord:Vec, bodyType:Int, color:Int):EntityModel
+	private function addDynamic(size:Vec, coord:Vec, color:Int):EntityModel
 	{
-		var entity:EntityModel = createEntity(size, coord, bodyType, color, null);
+		var entity:EntityModel = createEntity(size, coord, BodyType.DYNAMIC, color, null);
+		//entity.data.setGravity(new Vec(0, 0, -98));
 		space.spawnBody(entity.data, ExampleUtil.spaceSysTime());
 		dynamicBody.push(entity);
+		return entity;
 	}
 }
