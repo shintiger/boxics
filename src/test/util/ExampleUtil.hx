@@ -4,6 +4,25 @@ package test.util;
  * ...
  * @author 
  */
+typedef Meta = {
+	var rx:Float;
+	var ry:Float;
+	var rz:Float;
+};
+
+typedef BodyData = {
+	var x:Float;
+	var y:Float;
+	var z:Float;
+	var xLength:Float;
+	var yLength:Float;
+	var zLength:Float;
+	var rx:Float;
+	var ry:Float;
+	var rz:Float;
+	var meta:Meta;
+};
+
 class ExampleUtil 
 {
 
@@ -23,4 +42,6 @@ class ExampleUtil
 	public static function sysTime():Float{
 		return Sys.time();
 	}
+	
+	
 }

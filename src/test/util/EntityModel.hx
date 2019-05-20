@@ -3,25 +3,6 @@ import com.gigateam.world.physics.entity.Body;
 import com.gigateam.world.physics.shape.Vec;
 import h3d.scene.Mesh;
 
-typedef Meta = {
-	var rx:Float;
-	var ry:Float;
-	var rz:Float;
-};
-
-typedef BodyData = {
-	var x:Float;
-	var y:Float;
-	var z:Float;
-	var xLength:Float;
-	var yLength:Float;
-	var zLength:Float;
-	var rx:Float;
-	var ry:Float;
-	var rz:Float;
-	var meta:Meta;
-};
-
 /**
  * ...
  * @author 

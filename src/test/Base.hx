@@ -9,6 +9,8 @@ import h3d.prim.Cube;
 import h3d.scene.Mesh;
 import h3d.scene.fwd.DirLight;
 import hxd.App;
+import hxd.Key;
+import hxd.Stage;
 import test.util.EntityModel;
 import test.util.ExampleUtil;
 
@@ -98,5 +100,16 @@ class Base extends App
 		space.spawnBody(entity.data, ExampleUtil.spaceSysTime());
 		dynamicBody.push(entity);
 		return entity;
+	}
+	
+	private function fromData(datas:Array<BodyData>):Array<EntityModel>{
+		var models:Array<EntityModel> = [];
+		for (data in datas){
+			var coord:Vec = new Vec(data.x, data.y, data.z);
+			var size:Vec = new Vec(data.xLength, data.yLength, data.zLength);
+			var rot:Vec = new Vec(data.rx, data.ry, data.rz);
+			addStatic(size, coord, rot, Std.random(0xffffff));
+		}
+		return models;
 	}
 }
