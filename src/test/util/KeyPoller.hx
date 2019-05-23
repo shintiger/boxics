@@ -1,5 +1,6 @@
 package test.util;
 import hxd.Key;
+import test.util.ComboParser.InputCombo;
 
 /**
  * ...
@@ -48,5 +49,10 @@ class KeyPoller
 			"cursorY" : cursorY
 		}
 		return combo;
+	}
+	
+	public function getKeyByIndex(index:Int):Int
+	{
+		return keys[index];
 	}
 }
