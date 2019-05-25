@@ -43,6 +43,7 @@ class Basic extends Base
 			var key:Int = poller.getKeyByIndex(index);
 			trace("key changed", key, isDown);
 		});
+		trace(s2d.width, s2d.height);
 		
 		addStatic(new Vec(1, 1, 1), new Vec(0, 0, 0), new Vec(0, 0, -0.465), Std.random(0xffffff));
 		addStatic(new Vec(1, 1, 1), new Vec(1, 0, 0), new Vec(0, 0, 1), Std.random(0xffffff));
@@ -61,6 +62,11 @@ class Basic extends Base
 	}
 	
 	override public function update(dt:Float):Void{
+		s2d.mouseX;
+		s2d.mouseY;
+		var centerX:Int = Std.int(s2d.width / 2);
+		var centerY:Int = Std.int(s2d.height / 2);
+		sevents.setMousePos(centerX, centerY);
 		poller.pollChanges(0, 0);
 		var combo:InputCombo = poller.getPressed();
 		comboParser.append(combo);
