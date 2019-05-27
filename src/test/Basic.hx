@@ -2,6 +2,7 @@ package test;
 import com.gigateam.world.physics.entity.Space;
 import com.gigateam.world.physics.shape.Vec;
 import hxd.Key;
+import hxd.System;
 import test.util.ComboParser;
 import test.util.ComboParser.InputCombo;
 import test.util.EntityModel;
@@ -31,6 +32,7 @@ class Basic extends Base
 		var keys:Array<Int> = [Key.W, Key.S, Key.A, Key.D, Key.MOUSE_LEFT, Key.MOUSE_RIGHT, Key.SPACE];
 		poller = new KeyPoller(keys);
 		comboParser = new ComboParser(keys.length);
+		sevents.enablePhysicalMouse = false;
 		
 		comboParser.map(0, InputComboType.TOP);
 		comboParser.map(1, InputComboType.BOTTOM);
@@ -62,12 +64,15 @@ class Basic extends Base
 	}
 	
 	override public function update(dt:Float):Void{
-		s2d.mouseX;
-		s2d.mouseY;
 		var centerX:Int = Std.int(s2d.width / 2);
 		var centerY:Int = Std.int(s2d.height / 2);
+		var deltaX:Float = s2d.mouseX - centerX;
+		var deltaY:Float = s2d.mouseY - centerY;
 		sevents.setMousePos(centerX, centerY);
-		poller.pollChanges(0, 0);
+		poller.pollChanges(deltaX, deltaY);
+		if (deltaX != 0 || deltaY != 0){
+			trace("delta", deltaX, deltaY);
+		}
 		var combo:InputCombo = poller.getPressed();
 		comboParser.append(combo);
 		super.update(dt);

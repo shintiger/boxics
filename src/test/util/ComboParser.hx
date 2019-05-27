@@ -31,7 +31,7 @@ class ComboParser
 		this.callback = callback;
 	}
 	
-	public function onDirectionChange(callback:
+	
 	
 	public function map(keyIndex:Int, keyType:Int):Void
 	{
