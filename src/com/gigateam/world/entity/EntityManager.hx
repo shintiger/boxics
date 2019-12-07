@@ -6,8 +6,8 @@ import com.gigateam.world.logic.BytesStream;
 import com.gigateam.world.logic.status.Character;
 import com.gigateam.world.network.NetworkEvent;
 import com.gigateam.world.network.Payload.NetworkEntity;
-import com.gigateam.world.physics.shape.AABB;
-import com.gigateam.world.physics.shape.Vec;
+import com.gigateam.physics.shape.AABB;
+import com.gigateam.physics.shape.Vec;
 import haxe.io.Bytes;
 
 /**

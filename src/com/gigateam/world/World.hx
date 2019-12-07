@@ -1,8 +1,7 @@
 package com.gigateam.world;
-import com.gigateam.world.physics.TestTemplate;
-import com.gigateam.world.physics.algorithm.SweepTestResult;
-import com.gigateam.world.physics.shape.AABB;
-import com.gigateam.world.physics.shape.Vec;
+import com.gigateam.physics.algorithm.SweepTestResult;
+import com.gigateam.physics.shape.AABB;
+import com.gigateam.physics.shape.Vec;
 import haxe.Json;
 
 

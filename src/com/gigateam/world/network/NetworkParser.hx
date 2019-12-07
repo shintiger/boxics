@@ -5,7 +5,7 @@ import com.gigateam.world.entity.Entity;
 import com.gigateam.world.entity.EntityManager.EntityCreator;
 import com.gigateam.world.logic.BytesStream;
 import com.gigateam.world.network.Payload.NetworkEntity;
-import com.gigateam.world.physics.entity.Space;
+import com.gigateam.physics.entity.Space;
 import haxe.io.Bytes;
 /**
  * ...

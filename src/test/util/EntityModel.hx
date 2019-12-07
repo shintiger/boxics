@@ -1,6 +1,6 @@
 package test.util;
-import com.gigateam.world.physics.entity.Body;
-import com.gigateam.world.physics.shape.Vec;
+import com.gigateam.physics.entity.Body;
+import com.gigateam.physics.shape.Vec;
 import h3d.scene.Mesh;
 
 /**

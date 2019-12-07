@@ -6,8 +6,8 @@ import com.gigateam.world.logic.status.Character;
 import com.gigateam.world.network.ClientInputStream.IInputStream;
 import com.gigateam.world.network.Payload.NetworkEntity;
 import com.gigateam.world.network.Payload.Packable;
-import com.gigateam.world.physics.Impulse;
-import com.gigateam.world.physics.shape.Vec;
+import com.gigateam.physics.Impulse;
+import com.gigateam.physics.shape.Vec;
 
 /**
  * ...

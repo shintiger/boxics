@@ -6,8 +6,8 @@ import com.gigateam.world.entity.EntityManager.EntityCreator;
 import com.gigateam.world.logic.BytesStream;
 import com.gigateam.world.network.Payload.NetworkEntity;
 import com.gigateam.world.network.Payload.Packable;
-import com.gigateam.world.physics.entity.Space;
-import com.gigateam.world.physics.shape.AABB;
+import com.gigateam.physics.entity.Space;
+import com.gigateam.physics.shape.AABB;
 import haxe.ds.GenericStack;
 import haxe.io.Bytes;
 

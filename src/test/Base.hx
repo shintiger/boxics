@@ -1,8 +1,8 @@
 package test;
-import com.gigateam.world.physics.entity.Body;
-import com.gigateam.world.physics.entity.BodyType;
-import com.gigateam.world.physics.entity.Space;
-import com.gigateam.world.physics.shape.Vec;
+import com.gigateam.physics.entity.Body;
+import com.gigateam.physics.entity.BodyType;
+import com.gigateam.physics.entity.Space;
+import com.gigateam.physics.shape.Vec;
 import h2d.Flow;
 import h3d.Vector;
 import h3d.prim.Cube;

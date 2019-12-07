@@ -1,10 +1,10 @@
 package com.gigateam.world.entity;
 import com.gigateam.world.network.NetworkEvent;
-import com.gigateam.world.physics.algorithm.SweepTestResult;
-import com.gigateam.world.physics.entity.Body;
-import com.gigateam.world.physics.entity.ISweepTester;
-import com.gigateam.world.physics.entity.Space;
-import com.gigateam.world.physics.shape.AABB;
+import com.gigateam.physics.algorithm.SweepTestResult;
+import com.gigateam.physics.entity.Body;
+import com.gigateam.physics.entity.ISweepTester;
+import com.gigateam.physics.entity.Space;
+import com.gigateam.physics.shape.AABB;
 
 /**
  * ...

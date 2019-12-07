@@ -9,18 +9,18 @@ import com.gigateam.world.logic.BytesStream;
 import com.gigateam.world.logic.KeyState;
 import com.gigateam.world.network.NetworkEntityPool;
 import com.gigateam.world.network.NetworkEvent;
-import com.gigateam.world.physics.Boost;
-import com.gigateam.world.physics.Impulse;
-import com.gigateam.world.physics.entity.Body;
-import com.gigateam.world.physics.entity.ICollisionNotifier;
-import com.gigateam.world.physics.math.AxisType;
-import com.gigateam.world.physics.shape.AABB;
-import com.gigateam.world.physics.shape.Vec;
-import com.gigateam.world.physics.timeline.StateKeyframe;
-import com.gigateam.world.physics.timeline.StateTimeline;
-import com.gigateam.world.physics.timeline.Timeline;
-import com.gigateam.world.physics.timeline.VolumeKeyframe;
-import com.gigateam.world.physics.timeline.VolumeTimeline;
+import com.gigateam.physics.Boost;
+import com.gigateam.physics.Impulse;
+import com.gigateam.physics.entity.Body;
+import com.gigateam.physics.entity.ICollisionNotifier;
+import com.gigateam.physics.math.AxisType;
+import com.gigateam.physics.shape.AABB;
+import com.gigateam.physics.shape.Vec;
+import com.gigateam.physics.timeline.StateKeyframe;
+import com.gigateam.physics.timeline.StateTimeline;
+import com.gigateam.physics.timeline.Timeline;
+import com.gigateam.physics.timeline.VolumeKeyframe;
+import com.gigateam.physics.timeline.VolumeTimeline;
 
 /**
  * ...

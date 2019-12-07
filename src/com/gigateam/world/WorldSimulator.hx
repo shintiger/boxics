@@ -7,7 +7,7 @@ import com.gigateam.world.entity.Director;
 import com.gigateam.world.entity.Entity;
 
 import com.gigateam.world.entity.EntityManager.EntityCreator;
-import com.gigateam.world.logic.BulletSweepTester;
+import com.gigateam.physics.BulletSweepTester;
 import com.gigateam.world.logic.BytesStream;
 
 import com.gigateam.world.logic.status.Character;
@@ -16,14 +16,14 @@ import com.gigateam.world.network.NetworkEntityPool;
 import com.gigateam.world.network.NetworkEvent;
 import com.gigateam.world.network.Payload;
 
-import com.gigateam.world.physics.InterpolationType;
+import com.gigateam.physics.InterpolationType;
 
-import com.gigateam.world.physics.entity.Body;
-import com.gigateam.world.physics.entity.BodyType;
-import com.gigateam.world.physics.entity.Space;
-import com.gigateam.world.physics.shape.AABB;
+import com.gigateam.physics.entity.Body;
+import com.gigateam.physics.entity.BodyType;
+import com.gigateam.physics.entity.Space;
+import com.gigateam.physics.shape.AABB;
 
-import com.gigateam.world.physics.shape.Vec;
+import com.gigateam.physics.shape.Vec;
 import haxe.Json;
 import haxe.io.Bytes;
 import haxe.io.BytesData;

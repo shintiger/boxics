@@ -1,8 +1,10 @@
 package test;
-import com.gigateam.world.physics.entity.Space;
-import com.gigateam.world.physics.shape.Vec;
+import com.gigateam.physics.entity.Space;
+import com.gigateam.physics.shape.Vec;
+import hxd.Event;
 import hxd.Key;
 import hxd.System;
+import hxd.Window;
 import test.util.ComboParser;
 import test.util.ComboParser.InputCombo;
 import test.util.EntityModel;
@@ -33,7 +35,9 @@ class Basic extends Base
 		poller = new KeyPoller(keys);
 		comboParser = new ComboParser(keys.length);
 		sevents.enablePhysicalMouse = false;
+		sevents.mouseCheckMove = false;
 		
+		/*
 		comboParser.map(0, InputComboType.TOP);
 		comboParser.map(1, InputComboType.BOTTOM);
 		comboParser.map(2, InputComboType.LEFT);
@@ -45,12 +49,22 @@ class Basic extends Base
 			var key:Int = poller.getKeyByIndex(index);
 			trace("key changed", key, isDown);
 		});
+		var window:Window = Window.getInstance();
+		window.addEventTarget(onEvent);
+		window.mouseLock = true;
 		trace(s2d.width, s2d.height);
+		*/
 		
 		addStatic(new Vec(1, 1, 1), new Vec(0, 0, 0), new Vec(0, 0, -0.465), Std.random(0xffffff));
 		addStatic(new Vec(1, 1, 1), new Vec(1, 0, 0), new Vec(0, 0, 1), Std.random(0xffffff));
 		addStatic(new Vec(1, 1, 1), new Vec(0, 1, 0), new Vec(0, 0, 2), Std.random(0xffffff));
 		addDynamic(new Vec(1, 1, 1), new Vec(0, 0, 10), Std.random(0xffffff));
+	}
+	
+	private function onEvent(e:Event):Void{
+		if(e.relX!=0 || e.relY !=0 || e.relZ !=0){
+			trace(e.relX, e.relY, e.relZ);
+		}
 	}
 	
 	override function mainLoop() {
@@ -68,10 +82,12 @@ class Basic extends Base
 		var centerY:Int = Std.int(s2d.height / 2);
 		var deltaX:Float = s2d.mouseX - centerX;
 		var deltaY:Float = s2d.mouseY - centerY;
-		sevents.setMousePos(centerX, centerY);
+		//var window:Window = Window.getInstance();
+		
+		//sevents.setMousePos(centerX, centerY);
 		poller.pollChanges(deltaX, deltaY);
 		if (deltaX != 0 || deltaY != 0){
-			trace("delta", deltaX, deltaY);
+			//trace("delta", deltaX, deltaY);
 		}
 		var combo:InputCombo = poller.getPressed();
 		comboParser.append(combo);

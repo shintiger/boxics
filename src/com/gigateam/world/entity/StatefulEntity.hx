@@ -7,9 +7,9 @@ import com.gigateam.world.logic.BytesStream;
 import com.gigateam.world.logic.status.EntityState;
 import com.gigateam.world.logic.status.INotifee;
 import com.gigateam.world.logic.status.Notifier;
-import com.gigateam.world.physics.shape.Vec;
-import com.gigateam.world.physics.timeline.StateKeyframe;
-import com.gigateam.world.physics.timeline.StateTimeline;
+import com.gigateam.physics.shape.Vec;
+import com.gigateam.physics.timeline.StateKeyframe;
+import com.gigateam.physics.timeline.StateTimeline;
 
 /**
  * ...
